@@ -1,0 +1,81 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Language" content="ja">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes,">
+  <title>SmaPri可変長サンプル(iOS)</title>
+</head>
+
+<script>
+  function requestOutput() {
+    // サンプルが配置されているフォルダパスを取得
+    var myPath = location.href;
+    var dir_path = myPath.substring(0, myPath.lastIndexOf('/'));
+
+    //フォーマットファイル指定
+    var formatfile = dir_path + "/Smapri.spfmtz";   //サーバ上に配置した場合
+
+    // 印字情報の設定
+    var url = "smapri:/Format/Print?";
+    url += "__format_archive_url=" + encodeURIComponent(formatfile);  //フォーマットファイル指定
+    url += "&__format_archive_update=update"; //フォーマット更新確認：更新する(エラー通知あり)
+    url += "&__format_id_number[0]=1";  // ヘッダ
+    url += "&__format[0]." + encodeURIComponent("伝票番号") + "=" + encodeURIComponent(document.MainForm.voucherNumber.value);
+    url += "&__format_id_number[1]=2";  // 明細① 
+    url += "&__format[1]." + encodeURIComponent("価格") + "=" + encodeURIComponent(document.MainForm.price1.value);
+    url += "&__format[1]." + encodeURIComponent("商品名") + "=" + encodeURIComponent(document.MainForm.item1.value);
+    url += "&__format_id_number[2]=2";  // 明細②
+    url += "&__format[2]." + encodeURIComponent("商品名") + "=" + encodeURIComponent(document.MainForm.item2.value);
+    url += "&__format[2]." + encodeURIComponent("価格") + "=" + encodeURIComponent(document.MainForm.price2.value);
+    url += "&__format_id_number[3]=3";  // フッタ
+    url += "&__format[3]." + encodeURIComponent("合計") + "=" + encodeURIComponent(document.MainForm.total.value);
+    url += "&__format[3]." + encodeURIComponent("消費税") + "=" + encodeURIComponent(document.MainForm.tax.value);
+    url += "&__format[3]." + encodeURIComponent("お預かり") + "=" + encodeURIComponent(document.MainForm.deposit.value);
+    url += "&__format[3]." + encodeURIComponent("お釣り") + "=" + encodeURIComponent(document.MainForm.change.value);
+    url += "&__format[3]." + encodeURIComponent("伝票番号") + "=" + encodeURIComponent(document.MainForm.voucherNumber.value);
+    url += "&__format[3]." + encodeURIComponent("(発行枚数)") + "=" + encodeURIComponent(document.MainForm.quantity.value);
+    url += "&__success_redirect_url=" + encodeURIComponent(dir_path + "/SmaPriSample_OK.html"); //OK時戻り先
+    url += "&__failure_redirect_url=" + encodeURIComponent(dir_path + "/SmaPriSample_NG.html"); //NG時戻り先
+
+    location.href = url;
+  }
+</script>
+
+<body>
+  <form name="MainForm">
+    <P>伝票番号<br>
+      <input type="number" name="voucherNumber" size="16" maxlength="16" value="0310990000012345">
+    </p>
+    <p>商品1<br>
+      <input type="text" name="item1" size="32" maxlength="32" value="りんご">
+    </p>
+    <p>価格1<br>
+      <input type="number" name="price1" size="6" maxlength="6" value="105">
+    </p>
+    <p>商品2<br>
+      <input type="text" name="item2" size="32" maxlength="32" value="みかん">
+    </p>
+    <p>価格2<br>
+      <input type="number" name="price2" size="6" maxlength="6" value="105">
+    </p>
+    <p>合計<br>
+      <input type="number" name="total" size="6" maxlength="6" value="210">
+    </p>
+    <p>内消費税等<br>
+      <input type="number" name="tax" size="6" maxlength="6" value="10">
+    </p>
+    <p>お預かり<br>
+      <input type="number" name="deposit" size="6" maxlength="6" value="500">
+    </p>
+    <p>お釣り<br>
+      <input type="number" name="change" size="6" maxlength="6" value="290">
+    </p>
+    <p>発行枚数<br>
+      <input type="number" name="quantity" size="6" maxlength="6" value="1">
+    </p>
+    <p><input type="button" value="発行" name="btnPrint" onclick="requestOutput()"></p>
+  </form>
+</body>
+
+</html>
