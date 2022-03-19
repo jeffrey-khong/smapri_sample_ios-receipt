@@ -1,1 +1,1 @@
-# smapri_sample_ios-receipt
+# smapri_sample_ios_receipt
